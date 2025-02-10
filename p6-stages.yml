@@ -1,0 +1,123 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+  # name: 'MartinsXPS15'
+  # demands:
+  #   - agent.name -equals MARTINS_XPS15
+
+#https://learn.microsoft.com/en-us/azure/devops/pipelines/process/stages?view=azure-devops&tabs=yaml
+#stages is a logical group of jobs
+#Stages run by default sequentially and you can use dependencies and conditions
+
+stages:
+  - stage: Stage1 
+    jobs:
+    - job: myInitialJob
+      displayName: 'myInitialJob' 
+      timeoutInMinutes: 10
+      steps:
+      - bash: echo "Executing myInitialJob"
+      #- bash: exit 1  #This step will now fail
+
+    - job: myJobA
+      displayName: 'myJobA saying Hello World' 
+      timeoutInMinutes: 10
+      dependsOn:
+      - myInitialJob
+      steps:
+      - bash: echo "Hello world from myJobA"
+      #- bash: exit 1  #This step will now fail
+
+    - job: myJobB
+      displayName: 'myJobB saying Hello World' 
+      timeoutInMinutes: 10
+      dependsOn:
+      - myInitialJob
+      steps:
+      - bash: echo "Hello world from myJobB"
+
+    - job: myFinalJob
+      displayName: 'myFinalJob' 
+      timeoutInMinutes: 10
+      dependsOn: 
+      - myJobA
+      - myJobB
+      steps:
+      - bash: echo "Executing myInitialJob"
+
+  - stage: Stage2 
+    jobs:
+    - job: myInitialJob
+      displayName: 'myInitialJob' 
+      timeoutInMinutes: 10
+      steps:
+      - bash: echo "Executing myInitialJob"
+      #- bash: exit 1  #This step will now fail
+
+    - job: myJobA
+      displayName: 'myJobA saying Hello World' 
+      timeoutInMinutes: 10
+      dependsOn:
+      - myInitialJob
+      steps:
+      - bash: echo "Hello world from myJobA"
+      #- bash: exit 1  #This step will now fail
+
+    - job: myJobB
+      displayName: 'myJobB saying Hello World' 
+      timeoutInMinutes: 10
+      dependsOn:
+      - myInitialJob
+      steps:
+      - bash: echo "Hello world from myJobB"
+
+    - job: myFinalJob
+      displayName: 'myFinalJob' 
+      timeoutInMinutes: 10
+      dependsOn: 
+      - myJobA
+      - myJobB
+      steps:
+      - bash: echo "Executing myInitialJob"
+
+  - stage: Stage3 
+    jobs:
+    - job: myInitialJob
+      displayName: 'myInitialJob' 
+      timeoutInMinutes: 10
+      steps:
+      - bash: echo "Executing myInitialJob"
+      #- bash: exit 1  #This step will now fail
+
+    - job: myJobA
+      displayName: 'myJobA saying Hello World' 
+      timeoutInMinutes: 10
+      dependsOn:
+      - myInitialJob
+      steps:
+      - bash: echo "Hello world from myJobA"
+      #- bash: exit 1  #This step will now fail
+
+    - job: myJobB
+      displayName: 'myJobB saying Hello World' 
+      timeoutInMinutes: 10
+      dependsOn:
+      - myInitialJob
+      steps:
+      - bash: echo "Hello world from myJobB"
+
+    - job: myFinalJob
+      displayName: 'myFinalJob' 
+      timeoutInMinutes: 10
+      dependsOn: 
+      - myJobA
+      - myJobB
+      steps:
+      - bash: echo "Executing myInitialJob"

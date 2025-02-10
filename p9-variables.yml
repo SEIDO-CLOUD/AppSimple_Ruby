@@ -1,0 +1,25 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+
+#https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/key-pipelines-concepts?view=azure-devops
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+  # name: 'MartinsXPS15'
+  # demands:
+  #   - agent.name -equals MARTINS_XPS15
+
+variables:
+ - simpleString: AppSimple
+ - complexString: 'AppSimple for group Tanzanite'
+
+#https://learn.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#
+#variables
+steps:
+- bash: echo "Hello world " $(complexString)
+- bash: echo "Hello world again " $(simpleString)

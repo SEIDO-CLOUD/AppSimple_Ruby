@@ -1,0 +1,43 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+  # name: 'MartinsXPS15'
+  # demands:
+  #   - agent.name -equals MARTINS_XPS15
+
+#https://learn.microsoft.com/en-us/azure/devops/pipelines/process/stages?view=azure-devops&tabs=yaml
+#Multiple jobs will run in parallell if possible
+#Dependency can controll the flow, when a job shall be performed
+#Conditions add flexibility to Dependency
+jobs:
+- job: myJobA
+  displayName: 'myJobA saying Hello World' 
+  timeoutInMinutes: 10
+  steps:
+  - bash: echo "Hello world from myJobA"
+  - bash: echo "Hello world from myJobA"
+  - bash: exit 1  #This step will now fail, but conditions make myJobC run ONLY if myJobA fails and myJobB succeeds
+
+- job: myJobB
+  displayName: 'myJobB saying Hello World' 
+  timeoutInMinutes: 10
+  steps:
+  - bash: echo "Hello world from myJobB"
+  - bash: echo "Hello world from myJobB"
+
+- job: myJobC
+  displayName: 'Hello world from myJobC conditional' 
+  timeoutInMinutes: 10
+  dependsOn: 
+  - myJobA
+  - myJobB
+  condition: and (failed('myJobA'), succeeded('myJobB'))
+  steps:
+  - bash: echo "Hello world from myJobC conditional"
